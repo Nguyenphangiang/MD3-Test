@@ -4,6 +4,7 @@ import DAO.CategoryDAO;
 import DAO.ICategoryDAO;
 import DAO.IProductDAO;
 import DAO.ProductDAO;
+import model.Category;
 import model.Product;
 
 import javax.servlet.*;
@@ -35,7 +36,7 @@ public class ProductServlet extends HttpServlet {
                 showFormEditProduct(request,response);
                 break;
             case "delete":
-                showFormDeleteProduct(request,request);
+                showFormDeleteProduct(request,response);
                 break;
             default:
                 showAllListProduct(request,response);
@@ -73,7 +74,11 @@ public class ProductServlet extends HttpServlet {
     private void showFormEditProduct(HttpServletRequest request, HttpServletResponse response) {
     }
 
-    private void showFormAddProduct(HttpServletRequest request, HttpServletResponse response) {
+    private void showFormAddProduct(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        RequestDispatcher dispatcher = request.getRequestDispatcher("product/addProduct.jsp");
+        List<Category> categories = categoryDAO.showAll();
+        request.setAttribute("categories",categories);
+        dispatcher.forward(request,response);
     }
     private void showAllListProduct(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         RequestDispatcher dispatcher = request.getRequestDispatcher("product/listProduct.jsp");
@@ -82,10 +87,19 @@ public class ProductServlet extends HttpServlet {
         dispatcher.forward(request,response);
     }
 
-    private void showFormDeleteProduct(HttpServletRequest request, HttpServletRequest request1) {
+    private void showFormDeleteProduct(HttpServletRequest request, HttpServletResponse response) {
     }
 
     private void addNewProduct(HttpServletRequest request, HttpServletResponse response) {
+        String name = request.getParameter("nameProduct");
+        int price =Integer.parseInt(request.getParameter("priceProduct"));
+        int quantity = Integer.parseInt(request.getParameter("quantityProduct"));
+        String color = request.getParameter("colorProduct");
+        String description = request.getParameter("descriptionProduct");
+        int categoryId =Integer.parseInt(request.getParameter("categoryProduct"));
+        Category category = categoryDAO.findById(categoryId);
+        Product newProduct = new Product(name,price,quantity,color,description,category);
+        productDAO.save(newProduct);
     }
     private void updateProduct(HttpServletRequest request, HttpServletResponse response) {
     }

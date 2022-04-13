@@ -27,3 +27,4 @@ update products p join category c on p.category_id = c.id set p.name = ? ,p.pric
 delete from products where id = ?;
 insert into products (name, price, quantity, color, description, category_id) values (?,?,?,?,?,?);
 select p.id,p.name,p.price,p.quantity,p.color,p.description,c.id,c.name from products p join category c on p.category_id = c.id where p.name = ?;
+select * from category;
