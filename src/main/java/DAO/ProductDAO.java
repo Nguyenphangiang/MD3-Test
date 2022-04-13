@@ -14,7 +14,7 @@ import java.util.List;
 public class ProductDAO implements IProductDAO{
     public static final String SQL_SELECT_PRODUCT = "select p.id,p.name,p.price,p.quantity,p.color,p.description,p.category_id,c.name from products p join category c on p.category_id = c.id;";
     public static final String SQL_SELECT_PRODUCT_BY_ID = "select p.name,p.price,p.quantity,p.color,p.description,p.category_id,c.name from products p join category c on p.category_id = c.id where p.id = ?;";
-    public static final String SQL_UPDATE_PRODUCT = "update products p join category c on p.category_id = c.id set p.name = ? ,p.price =?,p.quantity = ? ,p.color = ? ,p.descriptiopn = ? ,p.category_id = ? ;";
+    public static final String SQL_UPDATE_PRODUCT = "update products p join category c on p.category_id = c.id set p.name = ? ,p.price =?,p.quantity = ? ,p.color = ? ,p.description = ? ,p.category_id = ? where p.id = ?;";
     public static final String SQL_DELETE_PRODUCT = "delete from products where id = ?;";
     public static final String SQL_INSERT_INTO_PRODUCT = "insert into products (name, price, quantity, color, description, category_id) values (?,?,?,?,?,?);";
     public static final String SQL_SELECT_PRODUCT_BY_NAME = "select p.id,p.name,p.price,p.quantity,p.color,p.description,c.id,c.name from products p join category c on p.category_id = c.id where p.name = ?;";
@@ -74,7 +74,8 @@ public class ProductDAO implements IProductDAO{
             preparedStatement.setInt(3,product.getQuantity());
             preparedStatement.setString(4,product.getColor());
             preparedStatement.setString(5,product.getDescription());
-            preparedStatement.setInt(5,product.getCategory().getId());
+            preparedStatement.setInt(6,product.getCategory().getId());
+            preparedStatement.setInt(7,product.getId());
             return preparedStatement.executeUpdate() > 0;
         } catch (SQLException e) {
             e.printStackTrace();
