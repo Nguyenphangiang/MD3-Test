@@ -14,8 +14,14 @@
 </head>
 <body>
 <h1><a href="/ProductServlet?action=add">Add New Product</a></h1>
+<%--<form method="post">--%>
+<%--    --%>
+<%--</form>--%>
 <form>
     <table>
+        <input type="text" name="nameProduct" placeholder="enter name product">
+        <input type="text" name="action" value="search" hidden>
+        <input type="submit" value="Search">
         <caption><h2>Product List</h2></caption>
         <tr>
             <th>#</th>
