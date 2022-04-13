@@ -94,7 +94,12 @@ public class ProductServlet extends HttpServlet {
         dispatcher.forward(request,response);
     }
 
-    private void showFormDeleteProduct(HttpServletRequest request, HttpServletResponse response) {
+    private void showFormDeleteProduct(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        int id = Integer.parseInt(request.getParameter("id"));
+        RequestDispatcher dispatcher = request.getRequestDispatcher("product/deleteProduct.jsp");
+        Product product = productDAO.findById(id);
+        request.setAttribute("product",product);
+        dispatcher.forward(request,response);
     }
 
     private void addNewProduct(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -128,7 +133,13 @@ public class ProductServlet extends HttpServlet {
         request.setAttribute("products",products);
         dispatcher.forward(request,response);
     }
-    private void deleteProduct(HttpServletRequest request, HttpServletResponse response) {
+    private void deleteProduct(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        int id =Integer.parseInt(request.getParameter("id"));
+        productDAO.delete(id);
+        RequestDispatcher dispatcher = request.getRequestDispatcher("product/listProduct.jsp");
+        List<Product> products = productDAO.showAll();
+        request.setAttribute("products",products);
+        dispatcher.forward(request,response);
     }
 
 }
